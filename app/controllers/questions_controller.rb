@@ -5,6 +5,9 @@ class QuestionsController < ApplicationController
     # Your Ruby goes here.
 
     # @most_recent_movie_for_second_actor = ???
+
+    @most_recent_movie_for_second_actor = Actor.second.movies.order("year DESC").first.title
+
   end
 
   def question_2
@@ -12,7 +15,8 @@ class QuestionsController < ApplicationController
 
     # Your Ruby goes here.
 
-    # @director_of_longest_movie = ???
+    @director_of_longest_movie = Movie.order("duration DESC").first.director.name
+
   end
 
   def question_3
@@ -20,7 +24,16 @@ class QuestionsController < ApplicationController
 
     # Your Ruby goes here.
 
-    # @director_with_the_most_movies = ???
+    movie_counts = {:director => "", :count => 0}
+
+    Director.all.each do |the_director|
+
+      if the_director.movies.count > movie_counts[:count]
+        movie_counts = {:director => the_director.name, :count => the_director.movies.count}
+      end
+    end
+
+    @director_with_the_most_movies = movie_counts[:director]
   end
 
   def question_4
@@ -28,8 +41,7 @@ class QuestionsController < ApplicationController
     # (If there's a tie, any one of them is fine)
 
     # Your Ruby goes here.
-
-    # @actor_with_the_most_movies = ???
+    #@actor_with_the_most_movies
   end
 
   def question_5
