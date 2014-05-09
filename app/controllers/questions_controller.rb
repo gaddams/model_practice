@@ -41,7 +41,16 @@ class QuestionsController < ApplicationController
     # (If there's a tie, any one of them is fine)
 
     # Your Ruby goes here.
-    #@actor_with_the_most_movies
+    movie_counts = {:actor => "", :count => 0}
+
+    Actor.all.each do |the_actor|
+
+      if the_actor.movies.count > movie_counts[:count]
+        movie_counts = {:actor => the_actor.name, :count => the_actor.movies.count}
+      end
+    end
+
+    @actor_with_the_most_movies = movie_counts[:actor]
   end
 
   def question_5
@@ -51,6 +60,14 @@ class QuestionsController < ApplicationController
     # (If there's a tie, any pair of them is fine)
 
     # Your Ruby goes here.
+    movie_counts = {:actor => "", :director => "", :count => 0}
+
+    Actor.all.each do |the_actor|
+
+      if the_actor.movies.count > movie_counts[:count]
+        movie_counts = {:actor => the_actor.name, :count => the_actor.movies.count}
+      end
+    end
 
     # @actor = ???
     # @director = ???
