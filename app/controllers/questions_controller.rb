@@ -16,7 +16,7 @@ class QuestionsController < ApplicationController
     # Your Ruby goes here.
 
     @director_of_longest_movie = Movie.order("duration DESC").first.director.name
-
+    @length_of_the_longest_movie = Movie.order("duration DESC").first.duration
   end
 
   def question_3
@@ -60,17 +60,47 @@ class QuestionsController < ApplicationController
     # (If there's a tie, any pair of them is fine)
 
     # Your Ruby goes here.
-    movie_counts = {:actor => "", :director => "", :count => 0}
+    # movie_counts = {:actor => {}, :director => {}, :count => 0, :movie => {}}
 
-    Actor.all.each do |the_actor|
 
-      if the_actor.movies.count > movie_counts[:count]
-        movie_counts = {:actor => the_actor.name, :count => the_actor.movies.count}
+
+    # Actor.all.each do |the_actor|
+    #   the_actor.movies.director_id.each do |the_director|
+    #   if the_actor.movies.where(:director_id => the_director).count > movie_counts[:count]
+    #     movie_counts = the_actor.the_movies.where(:director_id => the_director).count
+    #     @actor = the_actor
+    #     @director = Director.find(the_director)
+    #     @movies_together = the_actor.movies.where(:director_id => the_director)
+
+    #   end
+    # end
+
+    # end
+count = 0
+ movie_counts = {:actor => "", :director => "", :count => 0, :movie => ""}
+Director.all.each do |the_director|
+  Actor.all.each do |the_actor|
+    the_actor.roles.each do |the_role|
+
+        if the_role.movie.director.id == the_director.id
+          count = count+1
+        end
       end
-    end
 
-    # @actor = ???
-    # @director = ???
-    # @movies_together = ???
+    if movie_counts[:count].to_i < count
+      movie_counts[:count] = count
+      movie_counts = {:actor => the_actor, :director => the_director}
+    end
+  end
+    count = 0
+  end
+
+
+
+    @actor = movie_counts[:actor]
+    @director = movie_counts[:director]
+    @movies_together = movie_counts[:movie]
+
+
   end
 end
