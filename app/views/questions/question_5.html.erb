@@ -8,6 +8,11 @@
     <p class="lead">Director: <%= @director.name %></p>
 
     <p class="lead">Movies:</p>
+    <ul>
+      <% @movies_together.each do |movie| %>
+        <li><%= movie.title %> (<%= movie.year %>)</li>
+      <% end %>
+    </ul
 
   </div>
 </div>
